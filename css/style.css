@@ -1,0 +1,259 @@
+/* css/style.css */
+:root {
+    /* Define a modern, softer color palette */
+    --primary-color: #34495e; /* Darker blue-grey for headers */
+    --secondary-color: #5d8aa8; /* Medium blue for accents */
+    --background-color: #f8f9fa; /* Off-white for general background */
+    --card-background: #ffffff; /* White for content cards */
+    --border-color: #e0e0e0; /* Light grey for borders */
+    --text-color: #343a40; /* Dark grey for body text */
+    --light-text-color: #6c757d; /* Lighter grey for secondary text */
+    --today-highlight-bg: #e6f2ee; /* Soft green for today */
+    --today-highlight-border: #4caf50; /* Green border for today */
+    --completed-text-color: #a0a0a0; /* Grey for completed text */
+    --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif; /* More modern font stack */
+    margin: 0; /* Remove default margin */
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    scroll-behavior: smooth; /* Smooth scrolling for jump links */
+}
+
+header {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 2.5rem 0; /* More padding for a premium feel */
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    margin-bottom: 30px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 3em; /* Slightly larger heading */
+    letter-spacing: -0.02em; /* Tighter letter spacing */
+    font-weight: 600; /* Slightly bolder */
+}
+
+main {
+    max-width: 960px; /* Slightly wider content area */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Weekly Sections (Improved UI) --- */
+.week-container {
+    margin-bottom: 25px;
+    background-color: var(--card-background);
+    border-radius: 8px; /* Rounded corners for the cards */
+    box-shadow: var(--box-shadow); /* Subtle shadow for depth */
+    overflow: hidden; /* Ensures borders wrap content correctly during collapse */
+    transition: all 0.3s ease-in-out; /* Smooth transitions for hover/focus */
+}
+
+.week-header {
+    background-color: var(--secondary-color); /* Use secondary color for headers */
+    color: #ffffff;
+    padding: 18px 25px; /* More padding */
+    margin: 0;
+    cursor: pointer;
+    font-size: 1.6em; /* Slightly larger font */
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separator */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 8px; /* Maintain rounded corners */
+    border-top-right-radius: 8px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.week-header:hover {
+    background-color: #4a7590; /* Slightly darker on hover */
+}
+
+.week-header .arrow-icon {
+    font-size: 0.7em;
+    transition: transform 0.3s ease-in-out;
+    margin-left: 10px;
+}
+
+.week-header.collapsed .arrow-icon {
+    transform: rotate(-90deg); /* Rotate arrow for collapsed state */
+}
+
+.week-content {
+    max-height: 1500px; /* Increased for potentially longer weeks */
+    overflow: hidden;
+    transition: max-height 0.6s ease-in-out, padding 0.6s ease-in-out; /* Slower transition */
+    padding: 20px 25px; /* Consistent padding */
+}
+
+.week-content.collapsed {
+    max-height: 0;
+    padding: 0 25px; /* Collapse padding as well */
+}
+
+/* --- Table Styles --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0; /* Remove top margin, padding from week-content handles it */
+}
+
+th, td {
+    border: 1px solid var(--border-color); /* Lighter border */
+    padding: 12px 15px; /* More horizontal padding */
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background-color: var(--background-color); /* Match body background */
+    font-weight: 600; /* Slightly bolder */
+    color: var(--primary-color); /* Use primary color for headers */
+    border-bottom: 2px solid var(--border-color); /* Stronger bottom border for headers */
+}
+
+tr:nth-child(even) {
+    background-color: #fefefe; /* Very slight off-white for even rows */
+}
+
+tr:hover {
+    background-color: #f0f0f0; /* Subtle hover effect */
+}
+
+/* Style for the "Today" row */
+tr.today-row {
+    background-color: var(--today-highlight-bg);
+    border-left: 5px solid var(--today-highlight-border);
+    font-weight: bold;
+}
+
+/* Style for Completed Activities */
+td.completed-activity {
+    text-decoration: line-through;
+    color: var(--completed-text-color);
+    font-style: italic;
+}
+
+td.completed-activity input[type="checkbox"] {
+    margin-right: 5px; /* Space between checkbox and text */
+}
+
+/* --- Go to Today Button --- */
+#goToTodayBtn {
+    display: none; /* Hidden by default */
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 50%; /* Make it round */
+    width: 50px;
+    height: 50px;
+    font-size: 1.8em;
+    cursor: pointer;
+    box-shadow: var(--box-shadow);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex; /* Use flexbox for centering text */
+    justify-content: center;
+    align-items: center;
+}
+
+#goToTodayBtn:hover {
+    background-color: #4a7590;
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Basic responsiveness for smaller screens */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+    .week-header {
+        font-size: 1.3em;
+        padding: 15px 20px;
+    }
+    main {
+        padding: 15px;
+    }
+    th, td {
+        padding: 10px 12px;
+    }
+    #goToTodayBtn {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border: 1px solid var(--border-color); /* Thicker border for mobile rows */
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    td {
+        border: none;
+        border-bottom: 1px solid var(--border-color); /* Lighter border for internal cells */
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+    }
+
+    td:last-child {
+        border-bottom: 0; /* No border for the last cell */
+    }
+
+    td:before {
+        position: absolute;
+        top: 12px; /* Adjust vertical alignment */
+        left: 15px; /* Adjust horizontal alignment */
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: var(--light-text-color); /* Use a lighter color for labels */
+        content: attr(data-label);
+    }
+    /* Mobile specific styling for completed activities */
+    td.completed-activity {
+        text-decoration: none; /* Remove strikethrough on mobile where it might be cramped */
+    }
+    td.completed-activity::after {
+        content: ' (Done)'; /* Add a text label */
+        color: var(--completed-text-color);
+        font-style: italic;
+        font-size: 0.9em;
+    }
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    margin-top: 40px;
+    color: var(--light-text-color);
+    font-size: 0.9em;
+}
