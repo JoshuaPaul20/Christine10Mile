@@ -51,7 +51,7 @@ main {
     background-color: var(--card-background);
     border-radius: 8px; /* Rounded corners for the cards */
     box-shadow: var(--box-shadow); /* Subtle shadow for depth */
-    overflow: hidden; /* Ensures borders wrap content correctly during collapse */
+    /* overflow: hidden; Removed from here, managed by JS for expanded state */
     transition: all 0.3s ease-in-out; /* Smooth transitions for hover/focus */
 }
 
@@ -87,15 +87,18 @@ main {
 }
 
 .week-content {
-    max-height: 1500px; /* Increased for potentially longer weeks */
-    overflow: hidden;
+    /* Default collapsed state (CSS only) */
+    max-height: 0;
+    overflow: hidden; /* This is crucial for the collapse transition */
     transition: max-height 0.6s ease-in-out, padding 0.6s ease-in-out; /* Slower transition */
-    padding: 20px 25px; /* Consistent padding */
+    padding: 0 25px; /* Collapsed padding */
 }
 
-.week-content.collapsed {
-    max-height: 0;
-    padding: 0 25px; /* Collapse padding as well */
+/* Class applied by JavaScript for expanded state */
+.week-content.expanded {
+    max-height: 5000px; /* A very large value to ensure content fits */
+    padding: 20px 25px; /* Expanded padding */
+    /* overflow will be set to 'visible' by JS after transition */
 }
 
 /* --- Table Styles --- */
