@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const weekContent = row.closest('.week-content');
             if (weekContent) {
                 weekContent.classList.remove('collapsed');
+                weekContent.classList.add('expanded'); // <--- ADDED: Add expanded class
+                weekContent.style.overflow = 'visible'; // <--- ADDED: Allow overflow immediately
                 todayWeekHeader = weekContent.previousElementSibling;
                 if (todayWeekHeader && todayWeekHeader.classList.contains('week-header')) {
                     todayWeekHeader.classList.remove('collapsed');
@@ -30,20 +32,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // If today's row wasn't found (e.g., plan is in the future), collapse all weeks by default
-    if (!todayRow) {
-         document.querySelectorAll('.week-content').forEach(content => {
-             content.classList.add('collapsed');
-             content.previousElementSibling.classList.add('collapsed');
-         });
-    } else {
-        // --- Scroll to Today's Week ---
-        // Use a slight delay to ensure layout is rendered before scrolling
-        setTimeout(() => {
-            if (todayWeekHeader) {
-                todayWeekHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }, 100);
-    }
+    // Or, if today's week was found, ensure other weeks are collapsed and set to hidden overflow
+    const allWeekContents = document.querySelectorAll('.week-content');
+    const allWeekHeaders = document.querySelectorAll('.week-header'); // Get all headers here for later use
+
+    allWeekContents.forEach(content => {
+        const header = content.previousElementSibling;
+        // If this is NOT today's week, ensure it's collapsed and hidden
+        if (!content.classList.contains('expanded')) { // Check if it's not already expanded by "today" logic
+            content.classList.add('collapsed');
+            content.style.overflow = 'hidden'; // Ensure it's hidden
+            if (header) header.classList.add('collapsed');
+        }
+    });
+    
+    // --- Scroll to Today's Week ---
+    // Use a slight delay to ensure layout is rendered before scrolling
+    setTimeout(() => {
+        if (todayWeekHeader) {
+            todayWeekHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, 100);
 
 
     // --- 2. "Completed" Checkbox Persistence and Styling ---
@@ -76,14 +85,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- 3. Weekly Collapse/Expand Feature ---
-    const weekHeaders = document.querySelectorAll('.week-header');
-
-    weekHeaders.forEach(header => {
+    // Using allWeekHeaders collected earlier
+    allWeekHeaders.forEach(header => {
         header.addEventListener('click', function() {
             const weekContent = this.nextElementSibling; // The div.week-content right after the header
             
-            this.classList.toggle('collapsed');
-            weekContent.classList.toggle('collapsed');
+            this.classList.toggle('collapsed'); // Toggle header's collapsed class
+
+            if (weekContent.classList.contains('expanded')) {
+                // <--- MODIFIED START: Currently expanded, so collapse it
+                weekContent.style.overflow = 'hidden'; // Hide overflow immediately for smooth collapse
+                weekContent.classList.remove('expanded');
+                weekContent.classList.add('collapsed');
+            } else {
+                // <--- MODIFIED START: Currently collapsed, so expand it
+                weekContent.classList.remove('collapsed');
+                weekContent.classList.add('expanded'); // Add expanded class for max-height
+                
+                // After the transition ends, allow overflow to visible for natural scrolling
+                weekContent.addEventListener('transitionend', function handler() {
+                    if (weekContent.classList.contains('expanded')) { // Only apply if still expanded
+                        weekContent.style.overflow = 'visible';
+                    }
+                    weekContent.removeEventListener('transitionend', handler); // Remove listener to avoid multiple calls
+                });
+            }
+            // <--- MODIFIED END
         });
     });
 
