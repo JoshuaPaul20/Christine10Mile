@@ -165,6 +165,7 @@ td.completed-activity input[type="checkbox"] {
     display: flex; /* Use flexbox for centering text */
     justify-content: center;
     align-items: center;
+    text-decoration: none; /* Ensure no underline on the text/icon */
 }
 
 #goToTodayBtn:hover {
@@ -172,20 +173,28 @@ td.completed-activity input[type="checkbox"] {
     transform: translateY(-2px); /* Slight lift on hover */
 }
 
-/* Basic responsiveness for smaller screens */
+
+/* ==================================== */
+/* === Responsive Optimizations === */
+/* ==================================== */
+
+/* Medium devices (tablets, 768px and up) */
 @media (max-width: 768px) {
+    header {
+        padding: 1.5rem 0; /* Reduce header padding */
+    }
     h1 {
-        font-size: 2em;
+        font-size: 2.2em; /* Smaller main heading */
     }
     .week-header {
-        font-size: 1.3em;
+        font-size: 1.4em; /* Smaller week header font */
         padding: 15px 20px;
     }
     main {
-        padding: 15px;
+        padding: 15px; /* Reduce main padding */
     }
     th, td {
-        padding: 10px 12px;
+        padding: 10px 12px; /* Reduce table cell padding */
     }
     #goToTodayBtn {
         bottom: 20px;
@@ -196,64 +205,86 @@ td.completed-activity input[type="checkbox"] {
     }
 }
 
+/* Small devices (phones, 600px and down) */
 @media (max-width: 600px) {
+    header {
+        padding: 1rem 0; /* Even smaller header padding */
+    }
+    h1 {
+        font-size: 1.8em; /* Mobile-friendly main heading */
+    }
+    .week-header {
+        font-size: 1.2em; /* Mobile-friendly week header */
+        padding: 12px 15px;
+    }
+    main {
+        padding: 10px; /* Minimal padding on main container */
+    }
+
+    /* Table responsiveness for mobile */
     table, thead, tbody, th, td, tr {
-        display: block;
+        display: block; /* Stack table elements */
     }
 
     thead tr {
-        position: absolute;
+        position: absolute; /* Hide table headers visually */
         top: -9999px;
         left: -9999px;
     }
 
     tr {
-        border: 1px solid var(--border-color); /* Thicker border for mobile rows */
-        margin-bottom: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        border: 1px solid var(--border-color); /* Add a border to each stacked row */
+        margin-bottom: 15px; /* Space out stacked rows */
+        border-radius: 8px; /* Rounded corners for individual "cards" */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow for definition */
     }
 
     td {
-        border: none;
-        border-bottom: 1px solid var(--border-color); /* Lighter border for internal cells */
+        border: none; /* Remove internal cell borders */
+        border-bottom: 1px solid var(--border-color); /* Add a separator between data points */
         position: relative;
-        padding-left: 50%;
-        text-align: right;
+        padding-left: 50%; /* Make space for data-label */
+        text-align: left; /* Align text consistently for readability */
+        padding-top: 10px; /* Adjust padding for mobile cards */
+        padding-bottom: 10px;
     }
 
     td:last-child {
-        border-bottom: 0; /* No border for the last cell */
+        border-bottom: 0; /* No border for the last cell in a row */
     }
 
     td:before {
         position: absolute;
-        top: 12px; /* Adjust vertical alignment */
-        left: 15px; /* Adjust horizontal alignment */
-        width: 45%;
+        top: 10px; /* Adjust vertical alignment for label */
+        left: 15px; /* Start label closer to the left edge */
+        width: 40%; /* Give labels enough space */
         padding-right: 10px;
         white-space: nowrap;
-        text-align: left;
+        text-align: left; /* Ensure label is left-aligned */
         font-weight: bold;
-        color: var(--light-text-color); /* Use a lighter color for labels */
+        color: var(--light-text-color);
         content: attr(data-label);
+        font-size: 0.9em; /* Slightly smaller label font */
     }
+
     /* Mobile specific styling for completed activities */
     td.completed-activity {
-        text-decoration: none; /* Remove strikethrough on mobile where it might be cramped */
+        text-decoration: none; /* Remove strikethrough if it clutters mobile view */
+        font-style: normal; /* Remove italic */
     }
     td.completed-activity::after {
-        content: ' (Done)'; /* Add a text label */
+        content: ' (Completed)'; /* Add a clear text label */
         color: var(--completed-text-color);
         font-style: italic;
         font-size: 0.9em;
+        margin-left: 5px; /* Space out the text label */
     }
-}
+    td.completed-activity input[type="checkbox"] {
+        /* Adjust checkbox alignment if needed */
+        vertical-align: middle;
+    }
 
-footer {
-    text-align: center;
-    padding: 30px;
-    margin-top: 40px;
-    color: var(--light-text-color);
-    font-size: 0.9em;
+    footer {
+        padding: 20px; /* Adjust footer padding */
+    }
 }
